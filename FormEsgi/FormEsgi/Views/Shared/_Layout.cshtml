@@ -1,0 +1,54 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="userApp">
+<head>
+    <title>Connexion</title>
+    <meta charset="utf-8" />
+
+    <!-- LOAD LIBRARIES -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- PROCESS FORM WITH AJAX (NEW) -->
+    <script src="~/js/controller/user.js"></script>
+</head>
+
+<body>
+    <div class="page">
+        <div id="header">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/Home/Index">MagiicForm</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="#"><a href="/Formulaire/List">Mes formulaires</a></li>
+                            <li class="#"><a href="/AnswerForm/ListForm">Tous les formulaires</a></li>
+                            <li class="#"><a href="/ProfilUser/Profil">Profil</a></li>
+                            <li class="#"><a href="#">Contact</a></li>
+                        </ul>  
+
+                        <ul class="nav navbar-nav navbar-right">
+                            @if(Session["userSession"] == null){  
+                                <li style="margin-right: 5px;"><form><a href="/Login/Login"><button type="button" class="btn btn-default navbar-btn">Connexion</button></a></form></li>
+                                <li style="margin-right: 5px;"><form><a href="/Inscription/Index"><button type="button" class="btn btn-default navbar-btn">Inscription</button></a></form></li>
+                            } else {
+                                <li style="margin-right: 5px;"><form><a href="/Login/LogOut"><button type="button" class="btn btn-default navbar-btn">Déconnexion</button></a></form></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="main">
+            @RenderBody()
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

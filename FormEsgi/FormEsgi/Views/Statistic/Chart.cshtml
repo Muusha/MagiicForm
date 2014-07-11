@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Chart";
+}
+
+<h2>Chart</h2>
+@{
+    System.Web.Helpers.Chart chart = (System.Web.Helpers.Chart)ViewData["chart"];
+}
+
+<!doctype html>
+<html ng-app="formApp">
+<head>
+    <title>Formulaires</title>
+    <meta charset="utf-8" />
+    <!-- LOAD BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- LOAD JQUERY -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- LOAD ANGULAR -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- PROCESS FORM WITH AJAX (NEW) -->
+    <script src="~/js/controller/form.js"></script>
+</head>
+<!-- apply the module and controller to our body so angular is applied to that -->
+<body ng-controller="formController">
+    <div class="container">
+        <header class="row col-sm-12">
+            <div class="page-header">
+                <h1>MagiicForm<!-- <img src="images/formIcon.jpeg" class="pull-right"> --></h1><small> Le site qui créer le monde</small>
+            </div>
+        </header>
+        <div class="row col-sm-12">
+            <nav class="col-sm-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"> <a href="/WelcomeUser/Welcome"> <span class="glyphicon glyphicon-home"></span> Accueil </a> </li>
+                    <li class="#"> <a href="/Formulaire/CreateForm"> <span class="glyphicon glyphicon-home"></span> Ajouter </a> </li>
+                    <li class="#"> <a href="/AnswerForm/ListForm"> <span class="glyphicon glyphicon-home"></span> Répondre </a> </li>
+                    <li class="#"> <a href="/ProfilUser/Profil"> <span class="glyphicon glyphicon-home"></span> Profil </a> </li>
+                    <li class="#"> <a href="/Login/LogOut"> <span class="glyphicon glyphicon-home"></span> Déconnexion </a> </li>
+                    <li> <a href="#"> <span class="glyphicon glyphicon-envelope"></span> Contact </a> </li>
+                </ul>
+            </nav>
+            <div class="row col-sm-10">
+                @{
+                    chart.Write();
+                }
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

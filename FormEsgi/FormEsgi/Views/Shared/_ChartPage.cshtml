@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "DetailsForm";
+}
+
+@{
+    var form = (FormEsgi.Models.Form)ViewData["form"];
+    var questions = (IEnumerable<FormEsgi.Models.Question>)ViewData["questions"];
+    var fixedAnswers = (List<FormEsgi.Models.FixedAnswer>)ViewData["fixedAnswers"];
+}
+<!doctype html>
+<html ng-app="formApp">
+<head>
+    <title>Formulaires</title>
+    <meta charset="utf-8" />
+    <!-- LOAD BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- LOAD JQUERY -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- LOAD ANGULAR -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- PROCESS FORM WITH AJAX (NEW) -->
+    <script src="~/js/controller/form.js"></script>
+</head>
+<!-- apply the module and controller to our body so angular is applied to that -->
+<body ng-controller="formController">
+    <div class="container">
+        <header class="row col-sm-12">
+            <div class="page-header">
+                <h1>MagiicForm<!-- <img src="images/formIcon.jpeg" class="pull-right"> --></h1><small> Le site qui créer le monde</small>
+            </div>
+        </header>
+        <div class="row col-sm-12">
+            <nav class="col-sm-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"> <a href="/WelcomeUser/Welcome"> <span class="glyphicon glyphicon-home"></span> Accueil </a> </li>
+                    <li class="#"> <a href="/Formulaire/List"> <span class="glyphicon glyphicon-home"></span> Formulaires </a> </li>
+                    <li class="#"> <a href="/AnswerForm/ListForm"> <span class="glyphicon glyphicon-home"></span> Répondre </a> </li>
+                    <li class="#"> <a href="/ProfilUser/Profil"> <span class="glyphicon glyphicon-home"></span> Profil </a> </li>
+                    <li class="#"> <a href="/Login/LogOut"> <span class="glyphicon glyphicon-home"></span> Déconnexion </a> </li>
+                    <li> <a href="#"> <span class="glyphicon glyphicon-envelope"></span> Contact </a> </li>
+                </ul>
+            </nav>
+            <div class="row col-sm-10">
+                <a href="/AnswerForm/AnswerForm/@form.FormId" class="list-group-item active"> <span class="glyphicon glyphicon-stats"></span> Répondre au formulaire</a>
+                <a href="/Formulaire/DeleteForm/@form.FormId" class="list-group-item active"> <span class="glyphicon glyphicon-remove"></span> Supprimer le formulaire </a>
+                <a href="/Statistic/Statistics/@form.FormId" class="list-group-item active"> <span class="glyphicon glyphicon-stats"></span> Statistiques</a>
+                <div class="panel panel-default">
+
+                    <h4>@form.title</h4><span>@form.date_creation</span>
+                    <article>@form.description</article>
+                    @{
+                        int countQuestion = 1;
+                        foreach (var question in questions)
+                        {
+                            int countResponse = 1;
+                            <h4>Question @countQuestion :</h4><span>@question.question</span>
+                            foreach (var fixedAnswer in fixedAnswers)
+                            {
+                                if (fixedAnswer.QuestionId == question.QuestionId)
+                                {
+                                    <div style="margin-left: 30px;">
+                                        <h4>Réponse @countResponse :</h4><span>@fixedAnswer.fixed_answer</span>
+                                    </div>
+
+                                    countResponse++;
+                                }
+                            }
+
+                            countQuestion++;
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

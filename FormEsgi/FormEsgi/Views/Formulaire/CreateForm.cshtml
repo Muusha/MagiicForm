@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "CreateForm";
+}
+
+<h2>CreateForm</h2>
+
+<!doctype html>
+<html>
+<head>
+    <title>Création formulaire</title>
+    <meta charset="utf-8" />
+    <!-- LOAD BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/css/styleMH.css">
+
+    <!-- LOAD JQUERY -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- LOAD ANGULAR -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- PROCESS FORM WITH AJAX (NEW) -->
+    <script src="~/js/controller/form.js"></script>
+</head>
+<!-- apply the module and controller to our body so angular is applied to that -->
+<body ng-app="formApp" ng-controller="formController">
+    <div class="container">
+        <header class="row col-sm-12">
+            <div class="page-header">
+                <h1>MagiicForm<!-- <img src="images/formIcon.jpeg" class="pull-right"> --></h1><small> Le site qui créer le monde</small>
+            </div>
+        </header>
+        <div class="row col-sm-12">
+            <nav class="col-sm-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"> <a href="/WelcomeUser/Welcome"> <span class="glyphicon glyphicon-home"></span> Accueil </a> </li>
+                    <li class=""> <a href="/Formulaire/List"> <span class="glyphicon glyphicon-home"></span> Formulaires </a> </li>
+                    <li class=""> <a href="/AnswerForm/ListForm"> <span class="glyphicon glyphicon-home"></span> Répondre </a> </li>
+                    <li class=""> <a href="/ProfilUser/Profil"> <span class="glyphicon glyphicon-home"></span> Profil </a> </li>
+                    <li class=""> <a href="/Login/LogOut"> <span class="glyphicon glyphicon-home"></span> Déconnexion </a> </li>
+                    <li> <a href="#"> <span class="glyphicon glyphicon-envelope"></span> Contact </a> </li>
+                </ul>
+            </nav>
+            <div class="col-sm-7">
+
+                <!-- PAGE TITLE -->
+                <div class="page-header">
+                    <h1><span class="glyphicon glyphicon-tower"></span> Ajouter un formulaire</h1>
+                </div>
+
+                <!-- Voir les messages d'erreurs ou de succès lors de l'envoi au serveur -->
+                <div id="messages" class="well" ng-show="message">{{ message }}</div>
+
+                <!-- FORM -->
+                <form ng-submit="processForm()">
+                    <!-- Données Formulaire -->
+                    <button type="button" class="btn btn-primary navbar-btn" ng-click="visibleElement()">
+                        {{ see }}
+                    </button>
+                    <fieldset>
+                        <legend class="scheduler-border">Formulaire</legend>
+                        <div class="form-group" ng-show="visible">
+                            <div id="title-group" class="form-group" ng-class="{ 'has-error' : errorTitle }">
+                                <label>Titre du formulaire</label>
+                                <input type="text" name="title" class="form-control" placeholder="Titre" ng-model="formData.title">
+                                <span class="help-block" ng-show="errorTitle">{{ errorTitle }}</span>
+                            </div>
+
+                            <!-- Description -->
+                            <div id="description-group" class="form-group" ng-class="{ 'has-error' : errorDescription }">
+                                <label>Description</label>
+                                <input type="text" name="description" class="form-control" placeholder="Description" ng-model="formData.description">
+                                <span class="help-block" ng-show="errorDescription">{{ errorDescription }}</span>
+                            </div>
+
+                            <!-- Date de Cloture -->
+                            <div id="dateCloture-group" class="form-group" ng-class="{ 'has-error' : errorDateCloture }">
+                                <label>Date de Cloture</label>
+                                <input type="datetime-local" name="dateCloture" class="form-control" placeholder="Date de Cloture" ng-model="formData.dateCloture">
+                                <span class="help-block" ng-show="errorDateCloture">{{ errorDateCloture }}</span>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                    <!-- Questions -->
+                    <div class="form-group">
+                        <div ng-repeat="question in dataQuestions.details">
+                            <div id="question-group" class="form-group" ng-class="{ 'has-error' : question }">
+                                <label>{{ question.placeholder }}</label>
+                                <input type="text" class="form-control" placeholder="{{ question.placeholder }}" ng-model="question.question">
+                            </div>
+                            <select class="form-control" data-style="btn-info" ng-model="question.type">
+                                <option value="1">Texte</option>
+                                <option value="2">Liste</option>
+                                <option value="3">Nombre</option>
+                                <option value="4" selected>Radio</option>
+                                <option value="5">Checkbox</option>
+                            </select>
+                            <div style="margin-left: 30px;">
+                                <div ng-repeat="answer in question.answers">
+                                    <div>
+                                        <label>{{ answer.placeholder }}</label>
+                                        <input type="text" class="form-control" placeholder=" {{ answer.placeholder }}" ng-model="answer.answer">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary navbar-btn" ng-click="addAnswer(question.id)">
+                                    Nouvelle Réponse
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                </button>
+                                <span ng-show="showRemoveAnswer(question.id)">
+                                    <button type="button" class="btn btn-danger navbar-btn" ng-click="removeAnswer(question.id)">
+                                        Supprimer
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <button type="button" class="btn btn-default navbar-btn" ng-click="addQuestion()">
+                                Nouvelle Question
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                            </button>
+                            <span ng-show="showRemoveQuestion()">
+                                <button type="button" class="btn btn-danger navbar-btn" ng-click="removeQuestion()">
+                                    Supprimer
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" ng-model="dataQuestions.details">
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="btn btn-success btn-lg btn-block">
+                        <span class="glyphicon glyphicon-flash"></span> Envoyer !
+                    </button>
+                </form>
+
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

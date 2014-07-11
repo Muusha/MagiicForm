@@ -1,0 +1,62 @@
+﻿@model FormEsgi.Models.User
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<body ng-controller="inscriptionController">
+    <div class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-group" name="userForm" method="post" action="/Inscription/Create" novalidate>
+                <fieldset>
+                    @Html.ValidationSummary(true)
+                    <legend>Inscription</legend>
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                        <label class="control-label" for="name">Nom</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.name, new { @class = "form-control", @placeholder = "Nom", @ng_model = "name", @ng_minlength = "3", @ng_maxlength = "50" })
+                            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Le Nom est requis.</p>
+                            <p ng-show="userForm.name.$error.minlength" class="help-block">Le Nom doit comporter 3 caractères minimum.</p>
+                            <p ng-show="userForm.name.$error.maxlength" class="help-block">Le Nom doit comporter 50 caractères maximum.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                        <label class="control-label" for="email">Email</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.email, new { @class = "form-control", @type = "email", @placeholder = "Email", @ng_model = "email", @ng_minlength = "3" })
+                            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Entrer une adresse email valide.</p>
+                            <span class="help-block">@Html.ValidationMessageFor(model => model.email)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+                        <label class="control-label" for="passwordinput">Mot de passe</label>
+                        <div class="controls">
+                            @Html.PasswordFor(model => model.password, new { @class = "form-control", @placeholder = "Mot de passe", @ng_model = "password", @ng_minlength = "3" })
+                            <p ng-show="userForm.password.$error.minlength" class="help-block">Le mot de passe doit comporter 4 caractères minimum.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.pw2.$invalid && !userForm.pw2.$pristine }">
+                        <label class="control-label" for="passwordinput">Confirmer Mot de passe</label>
+                        <div class="controls">
+                            <input id="pw2" name="pw2" ng-model="pw2" ng-required="" pw-check="password" type="password" placeholder="Confirmer Mot de passe" class="form-control" required>
+                            <div class="help-block" ng-show="userForm.$error">
+                                <span class="msg-error" ng-show="userForm.pw2.$error.pwmatch">Les mots de passes ne sont pas identiques.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controls">
+                            <button id="singlebutton" name="inscription" class="btn btn-inverse" ng-disabled="userForm.$invalid">S'inscrire</button>
+                        </div>
+                    </div>
+                </fieldset>
+                </form>
+        </div>
+    </div>
+</body>
+

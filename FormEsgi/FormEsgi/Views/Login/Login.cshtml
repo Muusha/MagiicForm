@@ -1,0 +1,42 @@
+﻿@{     
+  Layout = "~/Views/Shared/_Layout.cshtml";
+  ViewBag.Title = "Login";
+}
+
+<body ng-controller="connectionController">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-group" name="userForm" method="post" action="/Login/Connection" novalidate>
+                <fieldset>
+                    <legend>Connexion</legend>
+
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                        <label class="control-label" for="name">Nom</label>
+                        <div class="controls">
+                            <input id="name" name="name" type="text" placeholder="Nom" class="form-control" ng-minlength="3" ng-maxlength="50" ng-model="name" required>
+                            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Le Nom est requis.</p>
+                            <p ng-show="userForm.name.$error.minlength" class="help-block">Le Nom doit comporter 3 caractères minimum.</p>
+                            <p ng-show="userForm.name.$error.maxlength" class="help-block">Le Nom doit comporter 50 caractères maximum.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="password">Mot de passe</label>
+                        <div class="controls">
+                            <input id="password" name="password" type="password" placeholder="Mot de passe" class="form-control" ng-model="password" ng-minlength="4" required>
+                            <p ng-show="userForm.password.$error.minlength" class="help-block">Le mot de passe doit comporter 4 caractères minimum.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controls">
+                            <button id="singlebutton" name="connection" class="btn btn-inverse" ng-disabled="userForm.$invalid">Se connecter</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>  
+    </div> 
+    </div>       
+</body>

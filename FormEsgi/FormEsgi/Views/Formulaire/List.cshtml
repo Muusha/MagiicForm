@@ -1,0 +1,44 @@
+﻿@using System.Collections
+@using System.Web.Mvc;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "List";
+}
+
+<body ng-controller="formController">
+    <div class="container">
+        <div class="row">
+            <h3 class="row">Mes Formulaires</h3>
+            <div class="row">
+                <section>
+                    @{
+                        // Récupération des formulaires et du nombre de réponses pour chacun d'eux.
+                        var list = (List<FormEsgi.Models.Form>)ViewData["forms"];
+                        var countAnswers = (List<int>)ViewData["countAnswers"];
+                        var formsAndCountAnswers = list.Zip(countAnswers, (f, c) => new { Form = f, Count = c });
+                    }
+                    <div class="list-group">
+                        @if(list.Count != 0){
+                            foreach (var item in formsAndCountAnswers)
+                            {
+                                <a href="/Formulaire/DetailsForm/@item.Form.FormId" class="list-group-item">
+                                    <span class="badge">@item.Count</span>
+                                    @item.Form.description
+                                </a>
+                            }
+                        }
+                        else{
+                            <p>Pas de formulaire</p>
+                        }
+                    </div>
+
+                    <div class="controls">
+                        <button id="singlebutton" name="connection" class="btn btn-inverse" onclick="location.href='/Formulaire/CreateForm'">Ajouter un formulaire</button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+        
+    </div>
+</body>

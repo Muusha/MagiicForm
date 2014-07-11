@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = (FormEsgi.Models.User)ViewData["user"];
+    ViewBag.Title = "Profil";
+}
+
+<body ng-controller="editUserController">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-2">
+                <form class="form-group" name="userForm" method="post" action="/ProfilUser/EditProfil" novalidate>
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Profil</legend>
+
+                        <!-- Login input-->
+                        <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                            <label class="control-label" for="textinput">name</label>
+                            <div class="controls">
+                                <input id="name" name="name" type="text" placeholder="Nom" class="form-control" ng-model="name" ng-init="name='@user.name'" value="@user.name" ng-minlength="3" ng-maxlength="50" required>
+                                <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Le Nom est requis.</p>
+                                <p ng-show="userForm.name.$error.minlength" class="help-block">Le nom doit comporter 3 caractères minimum.</p>
+                                <p ng-show="userForm.name.$error.maxlength" class="help-block">Le nom doit comporter 50 caractères maximum.</p>
+                            </div>
+                        </div>
+
+                        <!-- Email input-->
+                        <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                            <label class="control-label" for="email">Email</label>
+                            <div class="controls">
+                                <input id="email" name="email" type="email" placeholder="Email" class="form-control" ng-model="email" ng-init="email='@user.email'" value="@user.email" required>
+                                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Entrer une adresse email valide.</p>
+                            </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+                            <label class="control-label" for="passwordinput">Mot de passe</label>
+                            <div class="controls">
+                                <input id="password" name="password" ng-model="password" ng-required="" type="password" placeholder="Mot de passe" class="form-control" ng-minlength="4" ng-init="password='@user.password'" value="@user.password" required>
+                                <p ng-show="userForm.password.$error.minlength" class="help-block">Le mot de passe doit comporter 4 caractères minimum.</p>
+                            </div>
+                        </div>
+
+                        <!-- Password Repeat input-->
+                        <div class="form-group" ng-class="{ 'has-error' : userForm.pw2.$invalid && !userForm.pw2.$pristine }">
+                            <label class="control-label" for="passwordinput">Confirmer Mot de passe</label>
+                            <div class="controls">
+                                <input id="pw2" name="pw2" ng-model="pw2" ng-required="" pw-check="password" type="password" placeholder="Confirmer Mot de passe" class="form-control" ng-init="pw2='@user.password'" value="@user.password" required>
+                                <div class="help-block" ng-show="userForm.$error">
+                                    <span class="msg-error" ng-show="userForm.pw2.$error.pwmatch">Les mots de passes ne sont pas identiques.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modifier Profil -->
+                        <div class="form-group">
+                            <div class="controls">
+                                <button id="singlebutton" name="edit" class="btn btn-primary" ng-disabled="userForm.$invalid">Modifier</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</body>

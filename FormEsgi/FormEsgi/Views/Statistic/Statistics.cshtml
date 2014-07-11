@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Statistics";
+}
+
+<h2>Statistics</h2>
+@{
+    /*
+    Dictionary<FormEsgi.Models.Question, Dictionary<string, int>> dictQuestion = 
+        (Dictionary<FormEsgi.Models.Question, Dictionary<string, int>>)ViewData["statistics"];
+     * */
+    List<System.Web.Helpers.Chart> charts = (List<System.Web.Helpers.Chart>)ViewData["statistics"];
+    List<FormEsgi.Models.Question> questions = (List<FormEsgi.Models.Question>)ViewData["questions"];
+    int numberAnswers = (int) ViewData["numberanswers"];
+    FormEsgi.Models.Form form = (FormEsgi.Models.Form)ViewData["form"];
+}
+
+<!doctype html>
+<html ng-app="formApp">
+<head>
+    <title>Formulaires</title>
+    <meta charset="utf-8" />
+    <!-- LOAD BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- LOAD JQUERY -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- LOAD ANGULAR -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- PROCESS FORM WITH AJAX (NEW) -->
+    <script src="~/js/controller/form.js"></script>
+</head>
+<!-- apply the module and controller to our body so angular is applied to that -->
+<body ng-controller="formController">
+    <div class="container">
+        <header class="row col-sm-12">
+            <div class="page-header">
+                <h1>MagiicForm<!-- <img src="images/formIcon.jpeg" class="pull-right"> --></h1><small> Le site qui créer le monde</small>
+            </div>
+        </header>
+        <div class="row col-sm-12">
+            <nav class="col-sm-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"> <a href="/WelcomeUser/Welcome"> <span class="glyphicon glyphicon-home"></span> Accueil </a> </li>
+                    <li class="#"> <a href="/Formulaire/CreateForm"> <span class="glyphicon glyphicon-home"></span> Ajouter </a> </li>
+                    <li class="#"> <a href="/AnswerForm/ListForm"> <span class="glyphicon glyphicon-home"></span> Répondre </a> </li>
+                    <li class="#"> <a href="/ProfilUser/Profil"> <span class="glyphicon glyphicon-home"></span> Profil </a> </li>
+                    <li class="#"> <a href="/Login/LogOut"> <span class="glyphicon glyphicon-home"></span> Déconnexion </a> </li>
+                    <li> <a href="#"> <span class="glyphicon glyphicon-envelope"></span> Contact </a> </li>
+                </ul>
+            </nav>
+            <div class="row col-sm-10">
+                @{
+                    /*
+                    foreach (var item in charts)
+                    {
+                        item.Write();
+                    }
+                   */
+
+                    <h2>@form.title</h2>
+                    <h4>Ce formulaire a généré @numberAnswers réponses depuis sa mise en ligne le @form.date_creation</h4>
+                    <h4>Il contient @questions.Count questions.</h4>
+                    foreach (var question in questions)
+                    {
+                        <div>
+                            <a href="/Statistic/Chart/@question.QuestionId"> <span class="glyphicon glyphicon-stats"></span> @question.question</a>
+                            <a href="/Statistic/DonwloadChart/@question.QuestionId"> <span class="glyphicon glyphicon-cloud-download"></span> Télécharger Graphique</a>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
